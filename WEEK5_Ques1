@@ -1,0 +1,33 @@
+#include<iostream>
+#include<map>
+#include<stdlib.h>
+using namespace std;
+int main()
+{
+    map<char,int> m;
+    int count[26]={0},max=0,pos=0;
+    int j=0;
+    for(int i=97;i<=122;i++,j++)
+        m[char(i)]=j;
+    char *a=NULL;
+    int t,n,c;
+    cin>>t;
+    while(t--)
+    {
+        for(int i=0;i<26;i++) count[i]=0;
+        cin>>n;
+        a=(char*)malloc(sizeof(char)*n);
+        for(int i=0;i<n;i++) cin>>a[i];
+        for(int i=0;i<n;i++) count[m[a[i]]]++;
+        for(int i=0;i<26;i++)
+            if(max<count[i])
+            {
+                max=count[i];
+                pos=i;
+            }
+        cout<<max<<" '"<<char(97+pos)<<"'"<<endl;
+
+    }
+}
+
+
