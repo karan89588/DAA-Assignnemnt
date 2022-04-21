@@ -1,0 +1,48 @@
+#include<iostream>
+#include<stdlib.h>
+using namespace std;
+int c=0,s=0;
+void quickSort(int a[],int l,int r);
+int main()
+{
+    int t,n,*a=NULL;
+    cin>>t;
+    while(t--)
+    {
+        cin>>n;
+        a=(int*)malloc(sizeof(int)*n);
+        for(int i=0;i<n;i++) cin>>a[i];
+        quickSort(a,0,n-1);
+        for(int i=0;i<n;i++) cout<<a[i]<<' ';
+        cout<<"\nSwap "<<s;
+        cout<<"\nComparison "<<c;
+    }
+    return 0;
+}
+void quickSort(int a[],int l,int r)
+{
+    int i=l,j=r,k=a[l],t;
+    if(i>=j)
+        return ;
+    while(i<j)
+    {
+        while(a[i]<k)
+        {
+            i++;
+        }
+        while(a[j]>k)
+        {
+		    j--;
+		}
+        if(i<j)
+        {
+            t=a[i];
+            a[i]=a[j];
+            a[j]=t;
+            s++;
+        }
+        c++;
+    }
+    quickSort(a,l,j-1);
+    quickSort(a,j+1,r);
+}
