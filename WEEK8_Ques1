@@ -1,0 +1,47 @@
+#include<iostream>
+#include<vector>
+using namespace std;
+int selectMinNode(vector<int> value,vector<bool> vis);
+int prism(vector<vector<int> > g,int t);
+int main(){
+    int t,s;
+    cin>>t;
+    vector<vector<int> > g(t,vector<int>(t,0));
+    for(int i=0;i<t;i++){
+        for(int j=0;j<t;j++){
+            cin>>s;
+            g[i][j]=s;
+        }
+    }
+    cout<<prism(g,t);
+    return 0;
+}
+int selectMinNode(vector<int> value,vector<bool> vis){
+    int mini=INT_MAX,ver=0;
+    for(int i=0;i<value.size();i++){
+        if(value[i]<mini&&vis[i]==false){
+            mini=value[i];
+            ver=i;
+        }
+    }
+    return ver;
+}
+int prism(vector<vector<int> > g,int t){
+    vector<int> parent(t,-1);
+    vector<bool> vis(t,false);
+    vector<int> value(t,INT_MAX);
+    value[0]=0;
+    for(int i=0;i<t-1;i++){
+        int U=selectMinNode(value,vis);
+        vis[U]=true;
+        for(int j=0;j<t;j++){
+            if(g[U][j]!=0&&vis[j]==false&&value[j]>g[U][j]){
+                value[j]=g[U][j];
+                parent[j]=U;
+            }
+        }
+    }
+    int sum=0;
+    for(int i=0;i<t;i++) sum+=value[i];
+    return sum;
+}
