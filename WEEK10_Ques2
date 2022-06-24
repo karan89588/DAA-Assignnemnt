@@ -1,0 +1,36 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+using namespace std;
+int main()
+{
+    int t;
+    cin>>t;
+    vector<int> d(t),f(t),activity;
+    vector<vector<int>> jb;
+    for(int i=0;i<t;i++)
+    {
+        cin>>f[i];
+    }
+    for(int i=0;i<t;i++)
+    {
+        cin>>d[i];
+        jb.push_back({d[i],d[i]-f[i],i+1});
+    }
+    sort(jb.begin(),jb.end());
+    int e=jb[0][0];
+    activity.push_back(jb[0][2]);
+    for(int i=1;i<t;i++)
+    {
+        if(e<=jb[i][1])
+        {
+            activity.push_back(jb[i][2]);
+            e=jb[i][0];
+        }
+    }
+    sort(activity.begin(),activity.end());
+    cout<<"Maximum Task : "<<activity.size()<<endl;
+    cout<<"Completed Task are : ";
+    for(int i=0;i<activity.size();i++)
+        cout<<activity[i]<<" ";
+}
