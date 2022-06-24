@@ -1,0 +1,44 @@
+#include<iostream>
+#include<queue>
+#include<vector>
+using namespace std;
+bool kahnAlgo(vector<vector<int> > g,int t);
+int main(){
+    int t,s;
+    cin>>t;
+    vector<vector<int> > g(t,vector<int>(t,0)),adj(t);
+    for(int i=0;i<t;i++){
+        for(int j=0;j<t;j++){
+            cin>>s;
+            g[i][j]=s;
+            if(s!=0)
+                adj[i].push_back(j);
+        }
+    }
+    if(kahnAlgo(adj,t))cout<<"Yes";
+    else cout<<"No";
+    return 0;
+}
+bool kahnAlgo(vector<vector<int> > g,int t){
+    vector<int> indegree(t,0);
+    for(int i=0;i<g.size();i++)
+        for(int j=0;j<g[i].size();j++)
+            indegree[g[i][j]]++;
+
+    queue<int> q;
+    for(int i=0;i<t;i++)
+        if(indegree[i]==0)
+            q.push(i);
+    int ctn=0;
+    while(!q.empty()){
+        int c=q.front();
+        q.pop();
+        ctn++;
+        for(int j=0;j<g[c].size();j++){
+            indegree[g[c][j]]--;
+            if(indegree[g[c][j]]==0)
+                q.push(g[c][j]);
+        }
+    }
+    return ctn==t?false:true;
+}
