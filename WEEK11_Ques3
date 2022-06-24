@@ -1,0 +1,43 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+#include<set>
+using namespace std;
+vector<vector<int> > ways;
+void check(int s,vector<int> data,int sum,int tsum,vector<int> ans);
+int main(){
+    int t,s=0,f=0;
+    cin>>t;
+    vector<int> data(t),ans;
+    for(int i=0;i<t;i++)
+        cin>>data[i];
+    for(int i=0;i<t;i++)
+        s+=data[i];
+    check(0,data,s/2,0,ans);
+     for(int i=0;i<ways.size();i++){
+        for(int j=i+1;j<ways.size();j++){
+            if(ways[i].size()+ways[j].size()==t){
+                f=1;
+                break;
+            }
+        }
+     }
+    if(f==1)
+        cout<<"Yes";
+    else
+        cout<<"No";
+    return 0;
+}
+void check(int s,vector<int> data,int sum,int tsum,vector<int> ans){
+    if(sum<tsum)
+        return ;
+    if(sum==tsum){
+        ways.push_back(ans);
+        return ;
+    }
+    for(int i=s;i<data.size();i++){
+        ans.push_back(data[i]);
+        check(i+1,data,sum,tsum+data[i],ans);
+        ans.pop_back();
+    }
+}
