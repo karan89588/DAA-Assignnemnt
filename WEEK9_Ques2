@@ -1,0 +1,44 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+using namespace std;
+int main()
+{
+    int t,k;
+    cin>>t;
+    vector<int> item(t),val(t);
+    vector<vector<double>> jb;
+    for(int i=0;i<t;i++)
+        cin>>item[i];
+    for(int i=0;i<t;i++)
+    {
+        cin>>val[i];
+        jb.push_back({(double)val[i]/(double)item[i],(double)item[i],(double)i+1});
+    }
+    sort(jb.rbegin(),jb.rend());
+    vector<pair<int,int>> iw;
+    cin>>k;
+    double profit=0.0;
+    for(int i=0;i<t;i++)
+    {
+        if(jb[i][1]>=k)
+        {
+            profit+=k*jb[i][0];
+            iw.push_back(make_pair(jb[i][2],k));
+            break;
+        }
+        else
+        {
+            k-=jb[i][1];
+            profit+=jb[i][1]*jb[i][0];
+            iw.push_back(make_pair(jb[i][2],jb[i][1]));
+        }
+    }
+    cout<<"Maximum Profit : "<<profit<<endl;
+    cout<<"Item - Weight : \n";
+    for(auto it : iw)
+    {
+        cout<<it.first<<" "<<it.second<<endl;
+    }
+    return 0;
+}
