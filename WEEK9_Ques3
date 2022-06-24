@@ -1,0 +1,24 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+using namespace std;
+int main()
+{
+    int t,s,sum=0;
+    cin>>t;
+    vector<int> vec(t,0);
+    for(int i=0;i<t;i++)
+    {
+        cin>>s;
+        vec[i]=s;
+    }
+    sort(vec.begin(),vec.end());
+    for(int i=1;i<t;i++)
+    {
+        vec[i]=vec[i-1]+vec[i];
+        sum+=vec[i];
+        vec[i-1]=-1;
+    }
+    cout<<sum;
+    return 0;
+}
