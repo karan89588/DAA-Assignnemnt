@@ -1,0 +1,52 @@
+#include<iostream>
+#include<vector>
+#include<conio.h>
+using namespace std;
+void dfs(int s,int d,vector<vector<int> > g,vector<bool> &vis,vector<int> ans);
+vector<vector<int> > sol;
+int main(){
+    int t,s,d;
+    cin>>t;
+    vector<vector<int> > g(t,vector<int>(t,0));
+    for(int i=0;i<t;i++){
+        for(int j=0;j<t;j++){
+            cin>>s;
+            g[i][j]=s;
+        }
+    }
+    cin>>s>>d;
+    vector<int> ans;
+    vector<bool> vis(t,false);
+    dfs(s-1,d-1,g,vis,ans);
+    int m=INT_MAX,cm=0;
+    int k;
+    cin>>k;
+    for(int i=0;i<sol.size();i++){
+        if(sol[i].size()==k){
+            cm=0;
+            for(int j=0;j<sol[i].size();j++){
+                if(j==0) cm+=g[0][sol[i][j]];
+                else cm+=g[sol[i][j]-1][sol[i][j]];
+            }
+            m=min(m,cm);
+        }
+    }
+    cout<<"Shortest path between "<<s<<" and "<<d<<" is "<<m;
+    return 0;
+}
+void dfs(int s,int d,vector<vector<int> > g,vector<bool> &vis,vector<int> ans){
+    if(s==d){
+        vis[d]=false;
+        sol.push_back(ans);
+        return ;
+    }
+    vis[s]=true;
+    for(int i=0;i<g[s].size();i++){
+        if(!vis[i]&&g[s][i]!=0){
+            ans.push_back(i);
+            dfs(i,d,g,vis,ans);
+            ans.pop_back();
+        }
+    }
+    vis[s]=false;
+}
