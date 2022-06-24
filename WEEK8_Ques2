@@ -1,0 +1,56 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+using namespace std;
+typedef vector<pair<int,pair<int,int>>> graph;
+int kruskal(graph sol,int t);
+int finds(int u,vector<int> parent);
+void unionByWeight(int u,int v,vector<int> &parent);
+int main(){
+    int t,s;
+    cin>>t;
+    vector<vector<int> > g(t,vector<int>(t,0));
+    graph sol;
+    for(int i=0;i<t;i++){
+        for(int j=0;j<t;j++){
+            cin>>s;
+            g[i][j]=s;
+            if(s!=0) sol.push_back(make_pair(s,make_pair(i,j)));
+        }
+    }
+    cout<<kruskal(sol,t);
+    return 0;
+}
+int kruskal(graph sol,int t){
+    sort(sol.begin(),sol.end());
+    int s,d,w,sum=0;
+    vector<int> parent(t,-1);
+    for(int i=0;i<sol.size();i++){
+        s=sol[i].second.first;
+        d=sol[i].second.second;
+        w=sol[i].first;
+        if(finds(s,parent)!=finds(d,parent)){
+            sum+=w;
+            unionByWeight(s,d,parent);
+        }
+    }
+    return sum;
+}
+int finds(int u,vector<int> parent){
+    if(parent[u]<0)return u;
+    else return finds(parent[u],parent);
+}
+void unionByWeight(int u,int v,vector<int> &parent){
+    int pu=finds(u,parent);
+    int pv=finds(v,parent);
+    if(pu!=pv){
+        if(parent[pu]<=parent[pv]){
+            parent[pu]+=parent[pv];
+            parent[pv]=pu;
+        }
+        else{
+            parent[pv]+=parent[pu];
+            parent[pu]=pv;
+        }
+    }
+}
