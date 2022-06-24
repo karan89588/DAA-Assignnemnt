@@ -1,0 +1,59 @@
+#include<iostream>
+#include<vector>
+using namespace std;
+void dijkstraAlgo(int s,vector<vector<int> > g,int t);
+int selectMinNode(vector<int> value,vector<bool> vis);
+void finds(int i,vector<int> parent);
+int main(){
+    int t,s;
+    cin>>t;
+    vector<vector<int> > g(t,vector<int>(t,0));
+    for(int i=0;i<t;i++){
+        for(int j=0;j<t;j++){
+            cin>>s;
+            g[i][j]=s;
+        }
+    }
+    cin>>s;
+    dijkstraAlgo(s-1,g,t);
+    return 0;
+}
+int selectMinNode(vector<int> value,vector<bool> vis){
+    int mini=INT_MAX,ver=0;
+    for(int i=0;i<value.size();i++){
+        if(value[i]<=mini&&vis[i]==false){
+            mini=value[i];
+            ver=i;
+        }
+    }
+    return ver;
+}
+void dijkstraAlgo(int s,vector<vector<int> > g,int t){
+    vector<int> parent(t,-1);
+    vector<int> value(t,INT_MAX);
+    vector<bool> vis(t,false);
+    value[s]=0;
+    for(int i=0;i<t-1;i++){
+        int U=selectMinNode(value,vis);
+        vis[U]=true;
+        for(int j=0;j<t;j++){
+            if(g[U][j]!=0&&vis[j]==false&&value[U]!=INT_MAX&&value[j]>value[U]+g[U][j]){
+                value[j]=value[U]+g[U][j];
+                parent[j]=U;
+            }
+        }
+    }
+    cout<<endl<<endl;
+    for(int i=0;i<t;i++){
+        finds(i,parent);
+        cout<<" : "<<value[i]<<endl;
+    }
+}
+void finds(int i,vector<int> parent){
+    if(parent[i]<0){
+        cout<<i+1;
+        return ;
+    }
+    cout<<i+1<<" ";
+    finds(parent[i],parent);
+}
