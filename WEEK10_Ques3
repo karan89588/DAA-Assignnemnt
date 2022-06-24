@@ -1,0 +1,27 @@
+#include<iostream>
+#include<vector>
+#include<map>
+using namespace std;
+int main(){
+    int t,s,f=0;
+    cin>>t;
+    vector<int> data(t);
+    for(int i=0;i<t;i++){
+        cin>>s;
+        data[i]=s;
+    }
+    map<int,int> mp;
+    for(int i : data)
+        mp[i]++;
+    for(auto i : mp){
+        if(i.second>=t/2)
+            f=1;
+    }
+    if(f==1) cout<<"Yes"<<endl;
+    else cout<<"No"<<endl;
+    cout<<"Median of Data : ";
+    if(t&1==0) cout<<data[(t+1)/2];
+    else
+        cout<<(data[t/2]+data[t/2+1])/2.0;
+    return 0;
+}
